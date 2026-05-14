@@ -48,7 +48,6 @@ Day 1 setup in progress:
 ## Ethical disclaimer
 
 This project is for learning and interview preparation only.
-
 It uses a small demo application and simulated security issues. It does not include real company systems, real credentials, real customer data, employer source code, internal screenshots or confidential information.
 
-Do not use this project to scan systems that you do not own or have permission to test.
+
