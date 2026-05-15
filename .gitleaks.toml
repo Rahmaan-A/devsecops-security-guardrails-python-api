@@ -1,0 +1,14 @@
+title = "DevSecOps Demo Gitleaks Configuration"
+
+[[rules]]
+id = "demo-api-key"
+description = "Detects demo API keys used for this training project"
+regex = '''DEMO_API_KEY\s*=\s*["']?[A-Za-z0-9_-]{10,}["']?'''
+tags = ["demo", "secret", "training"]
+
+[allowlist]
+description = "Allow documentation-only examples"
+paths = [
+  '''README.md''',
+  '''docs/.*'''
+]
