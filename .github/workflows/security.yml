@@ -19,6 +19,17 @@ jobs:
       - name: Check out repository
         uses: actions/checkout@v4
 
+      - name: Set up Python for dependency installation
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: "pip"
+
+      - name: Install Python dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
       - name: Set up Node.js for Snyk CLI
         uses: actions/setup-node@v4
         with:
@@ -26,6 +37,11 @@ jobs:
 
       - name: Install Snyk CLI
         run: npm install -g snyk
+
+      - name: Authenticate Snyk CLI
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+        run: snyk auth "$SNYK_TOKEN"
 
       - name: Run Snyk Open Source scan
         env:
@@ -48,6 +64,11 @@ jobs:
 
       - name: Install Snyk CLI
         run: npm install -g snyk
+
+      - name: Authenticate Snyk CLI
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+        run: snyk auth "$SNYK_TOKEN"
 
       - name: Run Snyk Code scan
         env:
@@ -75,6 +96,11 @@ jobs:
       - name: Install Snyk CLI
         run: npm install -g snyk
 
+      - name: Authenticate Snyk CLI
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+        run: snyk auth "$SNYK_TOKEN"
+
       - name: Run Snyk Container scan
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
@@ -91,9 +117,12 @@ jobs:
         with:
           fetch-depth: 0
 
+      - name: Install Gitleaks
+        run: |
+          curl -sSL https://github.com/gitleaks/gitleaks/releases/download/v8.24.3/gitleaks_8.24.3_linux_x64.tar.gz -o gitleaks.tar.gz
+          tar -xzf gitleaks.tar.gz
+          chmod +x gitleaks
+
       - name: Run Gitleaks secrets scan
-        uses: gitleaks/gitleaks-action@v2.3.9
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          GITLEAKS_CONFIG: .gitleaks.toml
-          GITLEAKS_ENABLE_COMMENTS: false
+        run: |
+          ./gitleaks detect --source . --config .gitleaks.toml --redact --verbose --exit-code 2
