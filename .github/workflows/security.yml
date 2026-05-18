@@ -38,11 +38,6 @@ jobs:
       - name: Install Snyk CLI
         run: npm install -g snyk
 
-      - name: Authenticate Snyk CLI
-        env:
-          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
-        run: snyk auth "$SNYK_TOKEN"
-
       - name: Run Snyk Open Source scan
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
@@ -64,11 +59,6 @@ jobs:
 
       - name: Install Snyk CLI
         run: npm install -g snyk
-
-      - name: Authenticate Snyk CLI
-        env:
-          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
-        run: snyk auth "$SNYK_TOKEN"
 
       - name: Run Snyk Code scan
         env:
@@ -95,11 +85,6 @@ jobs:
 
       - name: Install Snyk CLI
         run: npm install -g snyk
-
-      - name: Authenticate Snyk CLI
-        env:
-          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
-        run: snyk auth "$SNYK_TOKEN"
 
       - name: Run Snyk Container scan
         env:
